@@ -9,109 +9,88 @@ function myMenuFunction(){
   }
 }
 
+/* ----- CLOSE MOBILE MENU AFTER CLICKING A LINK ----- */
+document.querySelectorAll('.nav-link').forEach(function(link){
+  link.addEventListener('click', function(){
+    document.getElementById("myNavMenu").classList.remove("responsive");
+  });
+});
+
 /* ----- ADD SHADOW ON NAVIGATION BAR WHILE SCROLLING ----- */
-window.onscroll = function() {headerShadow()};
+const navHeader = document.getElementById("header");
 
-function headerShadow() {
-  const navHeader =document.getElementById("header");
-
-  if (document.body.scrollTop > 50 || document.documentElement.scrollTop >  50) {
-
-    navHeader.style.boxShadow = "0 1px 6px rgba(0, 0, 0, 0.1)";
-    navHeader.style.height = "70px";
-    navHeader.style.lineHeight = "70px";
-
+function headerShadow(){
+  if(window.scrollY > 50){
+    navHeader.classList.add("scrolled");
   } else {
-
-    navHeader.style.boxShadow = "none";
-    navHeader.style.height = "90px";
-    navHeader.style.lineHeight = "90px";
-
+    navHeader.classList.remove("scrolled");
   }
 }
-
+window.addEventListener("scroll", headerShadow);
+headerShadow();
 
 /* ----- TYPING EFFECT ----- */
-var typingEffect = new Typed(".typedText",{
-  strings : ["Developer MobileApp"],
-  loop : true,
-  typeSpeed : 100, 
-  backSpeed : 80,
-  backDelay : 2000
-})
+new Typed(".typedText",{
+  strings: ["Full Stack Developer", "Flutter Developer", "Backend Developer"],
+  loop: true,
+  typeSpeed: 90,
+  backSpeed: 50,
+  backDelay: 1800
+});
 
-
-/* ----- ## -- SCROLL REVEAL ANIMATION -- ## ----- */
+/* ----- SCROLL REVEAL ANIMATION ----- */
 const sr = ScrollReveal({
-      origin: 'top',
-      distance: '80px',
-      duration: 2000,
-      reset: true     
-})
+  origin: 'top',
+  distance: '40px',
+  duration: 900,
+  easing: 'ease-out',
+  reset: false
+});
 
-/* -- HOME -- */
-sr.reveal('.featured-text-card',{})
-sr.reveal('.featured-name',{delay: 100})
-sr.reveal('.featured-text-info',{delay: 200})
-sr.reveal('.featured-text-btn',{delay: 200})
-sr.reveal('.social_icons',{delay: 200})
-sr.reveal('.featured-image',{delay: 300})
-
-
-/* -- PROJECT BOX -- */
-sr.reveal('.project-box',{interval: 200})
+/* -- HERO -- */
+sr.reveal('.hero-text',{});
+sr.reveal('.hero-terminal',{delay: 150});
 
 /* -- HEADINGS -- */
-sr.reveal('.top-header',{})
+sr.reveal('.top-header',{});
 
-/* ----- ## -- SCROLL REVEAL LEFT_RIGHT ANIMATION -- ## ----- */
+/* -- ABOUT -- */
+sr.reveal('.about-card',{origin: 'left'});
+sr.reveal('.about-info',{origin: 'right', delay: 100});
+sr.reveal('.skills-box',{interval: 120});
 
-/* -- ABOUT INFO & CONTACT INFO -- */
-const srLeft = ScrollReveal({
-origin: 'left',
-distance: '80px',
-duration: 2000,
-reset: true
-})
+/* -- SERVICES & PROCESS -- */
+sr.reveal('.service-box',{interval: 120});
+sr.reveal('.process',{delay: 100});
+sr.reveal('.process-step',{interval: 120});
 
-srLeft.reveal('.about-info',{delay: 100})
-srLeft.reveal('.contact-info',{delay: 100})
+/* -- PROJECTS -- */
+sr.reveal('.project-box',{interval: 150});
 
-/* -- ABOUT SKILLS & FORM BOX -- */
-const srRight = ScrollReveal({
-origin: 'right',
-distance: '80px',
-duration: 2000,
-reset: true
-})
-
-srRight.reveal('.skills-box',{delay: 100})
-srRight.reveal('.form-control',{delay: 100})
-
-
+/* -- CONTACT -- */
+sr.reveal('.contact-info',{origin: 'left'});
+sr.reveal('.form-control',{origin: 'right', delay: 100});
 
 /* ----- CHANGE ACTIVE LINK ----- */
+const sections = document.querySelectorAll('section[id]');
 
-const sections = document.querySelectorAll('section[id]')
+function scrollActive(){
+  const scrollY = window.scrollY;
 
-function scrollActive() {
-const scrollY = window.scrollY;
+  sections.forEach(current =>{
+    const sectionHeight = current.offsetHeight;
+    const sectionTop = current.offsetTop - 80;
+    const sectionId = current.getAttribute('id');
+    const link = document.querySelector('.nav-menu a[href*=' + sectionId + ']');
+    if(!link) return;
 
-sections.forEach(current =>{
-  const sectionHeight = current.offsetHeight,
-      sectionTop = current.offsetTop - 50,
-    sectionId = current.getAttribute('id')
-
-  if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) { 
-
-      document.querySelector('.nav-menu a[href*=' + sectionId + ']').classList.add('active-link')
-
-  }  else {
-
-    document.querySelector('.nav-menu a[href*=' + sectionId + ']').classList.remove('active-link')
-
-  }
-})
+    if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight){
+      link.classList.add('active-link');
+    } else {
+      link.classList.remove('active-link');
+    }
+  });
 }
 
-window.addEventListener('scroll', scrollActive)
+window.addEventListener('scroll', scrollActive);
+scrollActive();
