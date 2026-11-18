@@ -66,6 +66,8 @@ sr.reveal('.process-step',{interval: 120});
 
 /* -- PROJECTS -- */
 sr.reveal('.project-box',{interval: 150});
+sr.reveal('.featured',{delay: 100});
+sr.reveal('.shot',{interval: 80});
 
 /* -- CONTACT -- */
 sr.reveal('.contact-info',{origin: 'left'});
@@ -94,3 +96,27 @@ function scrollActive(){
 
 window.addEventListener('scroll', scrollActive);
 scrollActive();
+
+/* ----- SCREENSHOT LIGHTBOX ----- */
+const lightbox = document.createElement('div');
+lightbox.className = 'lightbox';
+const lightboxImg = document.createElement('img');
+lightbox.appendChild(lightboxImg);
+document.body.appendChild(lightbox);
+
+function closeLightbox(){
+  lightbox.classList.remove('open');
+}
+
+document.querySelectorAll('.shot img').forEach(function(img){
+  img.addEventListener('click', function(){
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightbox.classList.add('open');
+  });
+});
+
+lightbox.addEventListener('click', closeLightbox);
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeLightbox();
+});
